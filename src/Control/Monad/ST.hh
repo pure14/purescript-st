@@ -15,7 +15,7 @@
 #ifndef STFFI_HH
 #define STFFI_HH
 
-#include "Purescript/Purescript.hh"
+#include "PureScript/PureScript.hh"
 
 namespace Control_Monad_ST {
   using namespace PureScript;
