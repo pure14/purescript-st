@@ -2,7 +2,7 @@ module Control.Monad.ST where
 
 import Prelude
 
-import Control.Monad.Eff (Eff(), runPure)
+import Control.Monad.Eff (Eff())
 
 -- | The `ST` effect represents _local mutation_, i.e. mutation which does not "escape" into the surrounding computation.
 -- |
@@ -32,11 +32,11 @@ foreign import writeSTRef :: forall a h r. STRef h a -> a -> Eff (st :: ST h | r
 -- | to the surrounding computation.
 -- |
 -- | It may cause problems to apply this function using the `$` operator. The recommended approach is to use parentheses instead.
-foreign import runST :: forall a r. (forall h. Eff (st :: ST h | r) a) -> Eff r a
+--foreign import runST :: forall a r. (forall h. Eff (st :: ST h | r) a) -> Eff r a
 
 -- | A convenience function which combines `runST` with `runPure`, which can be used when the only required effect is `ST`.
 -- |
 -- | Note: since this function has a rank-2 type, it may cause problems to apply this function using the `$` operator. The recommended approach
 -- | is to use parentheses instead.
-pureST :: forall a. (forall h r. Eff (st :: ST h | r) a) -> a
-pureST st = runPure (runST st)
+--pureST :: forall a. (forall h r. Eff (st :: ST h | r) a) -> a
+--pureST st = runPure (runST st)
