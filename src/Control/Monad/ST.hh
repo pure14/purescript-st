@@ -50,8 +50,7 @@ namespace Control_Monad_ST {
   //   };
   // };
 
-  template <typename A>
-  inline auto runST(const eff_fn<A>& f) -> eff_fn<A> {
+  inline auto runST(const any& f) -> const any& {
     return f;
   }
 
