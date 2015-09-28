@@ -20,42 +20,47 @@
 namespace Control_Monad_ST {
   using namespace PureScript;
 
-  // exports.newSTRef = function (val) {
-  //   return function () {
-  //     return { value: val };
-  //   };
-  // };
-  //
-  // exports.readSTRef = function (ref) {
-  //   return function () {
-  //     return ref.value;
-  //   };
-  // };
-  //
-  // exports.modifySTRef = function (ref) {
-  //   return function (f) {
-  //     return function () {
-  //       /* jshint boss: true */
-  //       return ref.value = f(ref.value);
-  //     };
-  //   };
-  // };
-  //
-  // exports.writeSTRef = function (ref) {
-  //   return function (a) {
-  //     return function () {
-  //       /* jshint boss: true */
-  //       return ref.value = a;
-  //     };
-  //   };
-  // };
-  //
+  struct STObject {
+    any data;
+  };
+
+  inline auto newSTRef(const any& val) -> any {
+    return [=]() -> any {
+      return any::make_shared<STObject>({val});
+    };
+  }
+
+  inline auto readSTRef(const any& ref) -> any {
+    return [=]() -> any {
+      const auto& object = ref.cast<any::shared<STObject>>();
+      return object->data;
+    };
+  }
+
+  inline auto modifySTRef(const any& ref) -> any {
+    return [=](const any& f) -> any {
+      return [=]() -> any {
+        auto object = ref.cast<any::shared<STObject>>();
+        object->data = f(object->data);
+        return ref;
+      };
+    };
+  }
+
+  inline auto writeSTRef(const any& ref) -> any {
+    return [=](const any& a) -> any {
+      return [=]() -> any {
+        auto object = ref.cast<any::shared<STObject>>();
+        object->data = a;
+        return ref;
+      };
+    };
+  }
 
   inline auto runST(const any& f) -> any {
     return f;
   }
 
 }
-
 
 #endif // STFFI_HH
