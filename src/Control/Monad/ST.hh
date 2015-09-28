@@ -49,8 +49,9 @@ namespace Control_Monad_ST {
   //     };
   //   };
   // };
+  //
 
-  inline auto runST(const any& f) -> const any& {
+  inline auto runST(const any& f) -> any {
     return f;
   }
 
